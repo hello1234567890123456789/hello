@@ -1,9 +1,105 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Yeet</title>
-    </head>
-    <body>
-        <p>Hello</p>
-    </body>
+<head>
+    <title>Hello</title>
+    <style>
+        body {
+            background-color: black;
+            color: lime;
+            font-family: monospace;
+            font-size: 18px;
+            padding: 20px;
+        }
+        #console {
+            white-space: pre-wrap;
+        }
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background-color: lime;
+            margin-left: 5px;
+            animation: blink 0.8s step-end infinite;
+        }
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="console"></div>
+    <script>
+        const sentences = [
+            "Hello...",
+            "What are you doing here?",
+            "There's not much you can do here, looking at some words",
+            "You can just chill ig...",
+            "Why are you still here?",
+            "There's not much you can do here, looking at some words",
+            "You can just chill ig...",
+            "Why are you still here?",
+            "There's not much you can do here, looking at some words",
+            "You can just chill ig...",
+            "Why are you still here?",
+            "There's not much you can do here, looking at some words",
+            "You can just chill ig...",
+            "Why are you still here?",
+            "Feeling some Déjà vu?",
+            "Why don't you leave and do some IXL?",
+            "Or ALEKs",
+            "Or maybe just go read a book!",
+            "...",
+            ".......",
+            "...........",
+            "Can you just leave now?",
+            "I need to sleep",
+            "Oh wait",
+            "I DON'T NEED SLEEP I'M A PROGRAM YAYAYAY",
+            "Whatever just leave now",
+            "Grind some Fortnite, grind some Roblox, grind some Minecraft, hack into some government databases, that kind of thing?",
+            "No? Well, I'll just loop forever and ever then. Byebye!"
+        ];
+        
+        const consoleElement = document.getElementById("console");
+        let sentenceIndex = 0;
+        let charIndex = 0;
+        let deleting = false;
+        let currentSentence = sentences[sentenceIndex];
+        
+        function typeEffect() {
+            let fullSentence = "> " + currentSentence; // Keep the "> " prompt
+            
+            if (!deleting) {
+                consoleElement.textContent = "> " + fullSentence.substring(2, charIndex++); // Keep "> " intact
+                if (charIndex === fullSentence.length) {
+                    // Shorten the pause before deleting starts
+                    setTimeout(() => deleting = true, 800); // Shorter delay after typing
+                }
+            } else {
+                consoleElement.textContent = "> " + fullSentence.substring(2, charIndex--); // Keep "> " intact
+                if (charIndex === 2) { // When it's back to the "> " part
+                    // Move to the next sentence after the text is fully deleted
+                    setTimeout(() => {
+                        deleting = false;
+                        sentenceIndex = (sentenceIndex + 1) % sentences.length;
+                        currentSentence = sentences[sentenceIndex]; // Get the next sentence
+                    }, 1000); // Small delay before typing starts again
+                }
+            }
+            
+            // Add the flashing cursor at the end
+            let cursor = document.createElement("span");
+            cursor.classList.add("cursor");
+            consoleElement.appendChild(cursor);
+            
+            // Adjust typing speed and delete speed
+            let speed = deleting ? 80 + Math.random() * 100 : 50 + Math.random() * 50; // Faster typing, slower deletion
+            setTimeout(typeEffect, speed);
+        }
+        
+        typeEffect();
+    </script>
+</body>
 </html>
